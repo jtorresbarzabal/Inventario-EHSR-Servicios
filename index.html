@@ -977,14 +977,16 @@ async function exportarPDF(familia){
     doc.setFontSize(9);
     doc.setTextColor(...colorInkSoft);
     doc.text('Estado:', marginX + 72, y + 38);
+    const anchoEstadoLabel = doc.getTextWidth('Estado:');
 
     const ce = colorEstado(it.estado);
+    const xCirculo = marginX + 72 + anchoEstadoLabel + 8;
     doc.setFillColor(...ce);
-    doc.circle(marginX + 100, y + 35, 2.4, 'F');
+    doc.circle(xCirculo, y + 35, 2.4, 'F');
     doc.setFont('helvetica','normal');
     doc.setFontSize(9);
     doc.setTextColor(...ce);
-    doc.text(it.estado, marginX + 106, y + 38);
+    doc.text(it.estado, xCirculo + 6, y + 38);
 
     if(it.observaciones){
       doc.setFont('helvetica','italic');
