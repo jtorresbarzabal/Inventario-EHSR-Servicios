@@ -271,7 +271,8 @@ input[type=text],input[type=number],textarea{
   <img id="lightboxImg" src="">
 </div>
 
-<input type="file" id="inputFoto" accept="image/*" style="display:none">
+<input type="file" id="inputFoto" accept="image/*" capture="environment" style="display:none">
+<input type="file" id="inputFotoGaleria" accept="image/*" style="display:none">
 
 <script>
 const firebaseConfig = {
@@ -488,7 +489,8 @@ function abrirFicha(id){
     </div>
     <div class="foto-grande-wrap">
       ${fotoInicial}
-      <button class="btn-foto edit-only" onclick="document.getElementById('inputFoto').click()">📷 Foto</button>
+      <button class="btn-foto edit-only" style="right:120px;" onclick="document.getElementById('inputFoto').click()">📷 Cámara</button>
+      <button class="btn-foto edit-only" onclick="document.getElementById('inputFotoGaleria').click()">🖼️ Galería</button>
     </div>
     <div class="stock-box">
       <div>
@@ -797,7 +799,7 @@ async function subirFotoDriveConReintento(id, dataUriGrande, esReintento){
   }
 }
 
-document.getElementById('inputFoto').addEventListener('change', async function(e){
+async function manejarSeleccionFoto(e){
   const file = e.target.files[0];
   if(!file) return;
   const panel = document.getElementById('panelFicha');
@@ -826,7 +828,9 @@ document.getElementById('inputFoto').addEventListener('change', async function(e
     avisar('No se pudo guardar la foto: ' + err.message);
   }
   e.target.value = '';
-});
+}
+document.getElementById('inputFoto').addEventListener('change', manejarSeleccionFoto);
+document.getElementById('inputFotoGaleria').addEventListener('change', manejarSeleccionFoto);
 
 function comprimirImagen(file){
   return new Promise((resolve, reject)=>{
